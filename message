@@ -1,1 +1,5 @@
 https://kcna9u0eurro.feishu.cn/docx/SOcCdUcBTo4D6IxOYpHcvwF3ncg
+# 导出 Deployment 为纯净 YAML（无托管字段、无注解、无状态信息）
+kubectl get deploy <部署名> -n <命名空间> -o yaml \
+  --show-managed-fields=false \
+  | yq 'del(.metadata.annotations, .metadata.labels."pod-template-hash", .status, .metadata.uid, .metadata.resourceVersion, .metadata.creationTimestamp)' > clean-deploy.yml
